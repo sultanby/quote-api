@@ -41,7 +41,7 @@ app.post('/api/quotes', (req, res, next) => {
             id: newId
         }
         quotes.push(newQuote);
-        res.send(
+        res.send( 
             {
                 quote: newQuote
             }
