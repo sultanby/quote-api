@@ -14,6 +14,7 @@ It is a off-platform challenge project for Codecademy. Aim for this project is t
 - Displaying all quotes
 - Displaying a random quote
 - Adding quotes
+- Deleting quotes
 
 ## Setup
  After cloning the repo, navigate to project folder in terminal and run `npm install` to install the project and after `node server.js` to start the server. Go to localhost:4001 in browser to explore the features.

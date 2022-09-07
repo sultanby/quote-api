@@ -23,9 +23,27 @@ const renderQuotes = (quotes = []) => {
       const newQuote = document.createElement('div');
       newQuote.className = 'single-quote';
       newQuote.innerHTML = `<div class="quote-text">${quote.quote}</div>
-      <div class="attribution">- ${quote.person}</div>`;
+      <div class="attribution">- ${quote.person}</div>
+      <button id="fetch-delete-${quote.id}">delete quote</button>`;
       quoteContainer.appendChild(newQuote);
+      const deleteButton = document.getElementById(`fetch-delete-${quote.id}`);
+      deleteButton.addEventListener('click', () => {
+        fetch(`/api/quote/${quote.id}`, {
+          method: 'DELETE',
+        })
+        .then(response => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            renderError(response);
+          }
+        })
+        .then(response => {
+          renderQuotes(response.quotes);
+        });
+      });
     });
+
   } else {
     quoteContainer.innerHTML = '<p>Your request returned no quotes.</p>';
   }
@@ -73,3 +91,5 @@ fetchByAuthorButton.addEventListener('click', () => {
     renderQuotes(response.quotes);
   });
 });
+
+

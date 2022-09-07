@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 
-const { quotes } = require('./data');
+let { quotes } = require('./data');
 const { getRandomElement } = require('./utils');
 
 const PORT = process.env.PORT || 4001;
@@ -27,16 +27,18 @@ app.get('/api/quotes', (req, res, next) => {
     }else{
         retObj = {
             quotes: quotes
-        }
+        };
         res.send(retObj);
     }
 });
 
 app.post('/api/quotes', (req, res, next) => {
     if(req.query.person && req.query.quote) {
+        let newId = quotes[quotes.length-1].id + 1;
         let newQuote = {
             quote: req.query.quote,
-            person: req.query.person
+            person: req.query.person,
+            id: newId
         }
         quotes.push(newQuote);
         res.send(
@@ -47,7 +49,15 @@ app.post('/api/quotes', (req, res, next) => {
     } else {
         res.status(400).send();
     }
-})
+});
+
+app.delete('/api/quote/:id', (req, res, next) => {
+    let id = Number(req.params.id);
+    quotes = quotes.filter(quote => quote.id != id);
+    res.send({
+        quotes: quotes
+    });
+});
 
 app.listen(PORT, () => {
     console.log(`Server running on ${PORT}`);
